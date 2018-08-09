@@ -8,11 +8,10 @@
     "client",
     "browser"
   ],
-  "main":"index.js",
+  "main": "index.js",
   "author": "symbian3",
-  "contributors": [
-  ],
-  "scripts":{
+  "contributors": [],
+  "scripts": {
     "build": "webpack",
     "dev": "webpack-dev-server --devtool eval --progress --colors"
   },
