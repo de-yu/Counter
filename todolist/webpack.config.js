@@ -14,7 +14,7 @@ var config = {
     },
     devServer: {
         contentBase: path.join(__dirname, "dist"),
-        port: 8080
+        port: 7000,
     },
     module: {
         rules: [
