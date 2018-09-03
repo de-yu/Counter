@@ -2,10 +2,10 @@
 
 This project is in order to practice some js frameworks.
 
-1.webpack
-2.webpack-dev-server
-3.react
-4.react-redux
+1.webpack  
+2.webpack-dev-server  
+3.react  
+4.react-redux  
 <br>
 
 # Installation
