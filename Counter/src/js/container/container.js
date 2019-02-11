@@ -1,16 +1,17 @@
 
 import React from 'react';
 import Counter from '../component/Counter';
-import {add , minus} from '../actions/index'
+import {add , minus , asyncAdd , asyncMinus} from '../actions/index'
 import { connect } from 'react-redux';
 
-console.log(add , minus);
 
 const mapStateToProps = state =>({value:state});
 
 const mapDispatchToProps = (dispatch , props) => ({
     onIncrement:function(){dispatch(add(props))} ,
-    onDecrement:function(){dispatch(minus(props))}
+    onDecrement:function(){dispatch(minus(props))},
+    onAsyncIncrement:function(){  return dispatch(asyncAdd())} , 
+    onAsyncDecrement:function(){return dispatch(asyncMinus())}
     }
 );
 
