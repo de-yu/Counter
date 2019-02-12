@@ -1,4 +1,3 @@
-
 const add = add=>({
     type:"INCREMENT" , 
     add
@@ -10,20 +9,16 @@ const minus = minus =>({
 })
 
 const asyncAdd = function(){
-  
-  return async function(dispatch , state)
-  {
+
+  return async function(dispatch , state){
     var n = await asyncadd();
-    
     return n;
   }
 }
 
 const asyncMinus = function(){
-  return async function(dispatch , state)
-  {
+  return async function(dispatch , state){
     var n = await asyncminus();
-
     return n;
   }
 }

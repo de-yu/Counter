@@ -6,9 +6,9 @@ var SRC_DIR = path.resolve(__dirname, "src");
 
 
 var config = {
-    entry: SRC_DIR + "/js/index.js",
+    entry: SRC_DIR + "/redux-async/js/index.js",
     output: {
-        path: DIST_DIR + "/js/",
+        path: DIST_DIR + "/redux-async/js/",
         filename: "bundle.js",
         publicPath: "/js/"
     },
