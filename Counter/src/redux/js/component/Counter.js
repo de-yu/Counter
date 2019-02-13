@@ -8,16 +8,18 @@ export default class Counter extends React.Component
   }
   asyncIncrement()
   {
-    this.props.onAsyncIncrement().then(function(num){
-        this.props.setNum(num);
-
+    this.props.onAsyncIncrement().then(function(type){
+      if(type=="add"){
+        this.props.onIncrement();
+      }
     }.bind(this))
   }
   asyncDecrement()
   {
-      this.props.onAsyncDecrement().then(function(num){
-        this.props.setNum(num);
-      
+      this.props.onAsyncDecrement().then(function(type){
+      if(type=="minus"){
+        this.props.onDecrement();
+      }
     }.bind(this))
   }
   render() {
@@ -25,6 +27,12 @@ export default class Counter extends React.Component
     return(
             <p>
                 Clicked: {this.props.value.value} times
+                <button onClick={this.props.onIncrement}>
+                    +
+                </button>
+                <button onClick={this.props.onDecrement}>
+                    -
+                </button>
                 <button onClick={this.asyncIncrement.bind(this)}>
                     async +
                 </button>

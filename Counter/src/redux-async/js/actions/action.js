@@ -1,12 +1,9 @@
-const add = add=>({
-    type:"INCREMENT" , 
-    add
+
+const setNum = setNum =>({
+  type:"SETNUM" , 
+  num:setNum
 })
 
-const minus = minus =>({
-    type:"DECREMENT" , 
-    minus
-})
 
 const asyncAdd = function(){
 
@@ -27,7 +24,7 @@ async  function asyncadd()
 {
   return new Promise(function(resolve , reject){
       setTimeout(function(){
-        resolve("add");
+        resolve(1);
       } , 500)
     })
 }
@@ -36,8 +33,8 @@ async  function asyncminus()
 {
   return new Promise(function(resolve , reject){
       setTimeout(function(){
-        resolve("minus");
+        resolve(-1);
       } , 500)
     })
 }
-export {add , minus , asyncAdd , asyncMinus}
+export {setNum , asyncAdd , asyncMinus}

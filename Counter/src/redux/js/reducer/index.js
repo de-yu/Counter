@@ -4,8 +4,10 @@
  const reducer = (state={'value':0}, action) => {
 
   switch (action.type) {
-    case 'SETNUM':
-      return {'value':state['value']+action.num};
+    case 'INCREMENT':
+      return {'value':state['value']+1};
+    case 'DECREMENT':
+      return {'value':state['value']-1};
     default:
       return {'value':state['value']};
   }
