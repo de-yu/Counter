@@ -4,11 +4,12 @@ var path = require('path');
 var DIST_DIR = path.resolve(__dirname, 'dist');
 var SRC_DIR = path.resolve(__dirname, "src");
 
-
+// 調整 entry 和 output path 分別打包
 var config = {
-    entry: SRC_DIR + "/redux-async/js/index.js",
+  mode:"none",
+    entry: SRC_DIR + "/redux/js/index.js",
     output: {
-        path: DIST_DIR + "/redux-async/js/",
+        path: DIST_DIR + "/redux/js/",
         filename: "bundle.js",
         publicPath: "/js/"
     },
@@ -27,7 +28,12 @@ var config = {
                 }
             }
         ]
-    }
+    }, 
+      plugins: [
+   new webpack.LoaderOptionsPlugin({
+     debug: true
+   })
+  ]
 }
 
 module.exports = config;
