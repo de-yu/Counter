@@ -1,4 +1,4 @@
-import "babel-polyfill";
+import "babel-polyfill";  //regeneratorRuntime is not defined
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore , applyMiddleware} from 'redux';

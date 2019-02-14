@@ -7,9 +7,9 @@ var SRC_DIR = path.resolve(__dirname, "src");
 // 調整 entry 和 output path 分別打包
 var config = {
   mode:"none",
-    entry: SRC_DIR + "/redux/js/index.js",
+    entry: SRC_DIR + "/redux-async/js/index.js",
     output: {
-        path: DIST_DIR + "/redux/js/",
+        path: DIST_DIR + "/redux-async/js/",
         filename: "bundle.js",
         publicPath: "/js/"
     },

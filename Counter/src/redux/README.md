@@ -40,15 +40,15 @@ reducer
 
 以 action.type 分別做對應的動作 
 
-      const reducer = (state={'value':0}, action) => {
+      const reducer = (state={num:0}, action) => {
 
        switch (action.type) {
          case 'INCREMENT':
-           return {'value':state['value']+1};
+           return {num:state['num']+1};
          case 'DECREMENT':
-           return {'value':state['value']-1};
+           return {num:state['num']-1};
          default:
-           return {'value':state['value']};
+           return {num:state['num']};
        }
      }
 
@@ -60,9 +60,15 @@ container
 
 這邊包裝
 state 和 dispatch 到 component
-這邊的意思是
+state 代表component 使用到的變數
+dispatch 代表要使用的 function
+這邊的包含
 
-this.props.value
+this.props.value = {num:0}
+
+this.props.onIncrement
+
+this.props.onDecrement
 
     import React from 'react';
     import Counter from '../component/Counter';
@@ -79,3 +85,57 @@ this.props.value
     );
 
     export default connect(mapStateToProps ,mapDispatchToProps )(Counter);
+
+
+Component
+
+Counter
+
+將 props 放入 render 中
+
+
+    import React from 'react';
+
+    export default class Counter extends React.Component
+    {
+      constructor(props) {
+        super(props);
+      }
+      render() {
+
+        return(
+                <p>
+
+                    Clicked: {this.props.value.num} times
+                    <button onClick={this.props.onIncrement}>
+                        +
+                    </button>
+                    <button onClick={this.props.onDecrement}>
+                        -
+                    </button>
+                </p>
+                );
+      }
+    }
+
+最後統整
+
+createStore
+並放進 Provider
+
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import {createStore} from 'redux';
+    import {Provider} from 'react-redux';
+    import Counter from './container/container'
+    import reducer from './reducer/index'
+
+
+    const store = createStore(reducer);
+
+    ReactDOM.render(
+       <Provider store={store}>
+                <Counter />
+      </Provider>,
+      document.getElementById('app')
+    );
