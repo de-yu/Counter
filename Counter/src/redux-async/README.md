@@ -1,53 +1,32 @@
-# Counter
 
-This project is in order to practice some js frameworks.
+在 redux 中執行非同步的動作
 
-1.webpack  
-2.webpack-dev-server  
-3.react  
-4.react-redux  
-<br>
-
-# Installation
-
-        npm install
-
-# Scripts
-
-Pack the js file by using webpack
-
-        npm run build
-        
-Runs the app in the development mode.
-Open http://localhost:7000 to view it in the browser.
-
-        npm run dev
-
-這個專案目的是對 react 的使用作紀錄
-
-並包含 
-
-redux
+包含使用
 
 redux-thunk
 
 applyMiddleware 
 
-在 redux 中執行非同步的動作
+一般流程
+ 在 dispatch 後會將 action 的內容傳給 reducer
 
-對 redux 這個module 做個了解
- 
+在非同步的動作下
+會將一般流程的部分 放在 非同步的 callback 下
+非同步執行完後 接著執行
+
+以下是我個人的寫法
+
 actions
 
-    const add = add=>({
-        type:"INCREMENT" , 
-        add
+將兩個 action 包裝成 async 的 function
+
+
+
+    const setNum = setNum =>({
+      type:"SETNUM" , 
+      num:setNum
     })
 
-    const minus = minus =>({
-        type:"DECREMENT" , 
-        minus
-    })
 
     const asyncAdd = function(){
 
@@ -68,7 +47,7 @@ actions
     {
       return new Promise(function(resolve , reject){
           setTimeout(function(){
-            resolve("add");
+            resolve(1);
           } , 500)
         })
     }
@@ -77,40 +56,79 @@ actions
     {
       return new Promise(function(resolve , reject){
           setTimeout(function(){
-            resolve("minus");
+            resolve(-1);
           } , 500)
         })
     }
+    export {setNum , asyncAdd , asyncMinus}
 
-add 和 minus 為一般不需非同動作的 action
-通常 包含type 以及一個參數 傳遞給 reducer
+reducer
 
-asyncAdd 和 asyncMinus 包裝成兩個非同步動作 
-在 500ms 後 return
+reducer 無法執行 非同步動作
+
+基本上就是負責 非同步結束後 state 的變化
+
+
+      const reducer = (state={'value':0}, action) => {
+
+       switch (action.type) {
+         case 'SETNUM':
+           return {'value':state['value']+action.num};
+         default:
+           return {'value':state['value']};
+       }
+     }
+
+     export default reducer
+
+container
+
+再傳給 component 的 function 中
+將 非同步動作進行 return
+
+
+    import React from 'react';
+    import Counter from '../component/Counter';
+    import {setNum , asyncAdd , asyncMinus} from '../actions/action'
+    import { connect } from 'react-redux';
+
+
+    const mapStateToProps = state =>({value:state});
+
+    const mapDispatchToProps = (dispatch , props) => ({
+        onAsyncIncrement:function(){  return dispatch(asyncAdd())} , 
+        onAsyncDecrement:function(){return dispatch(asyncMinus())},
+        setNum:function(num){dispatch(setNum(num))}
+        }
+    );
+
+    export default connect(mapStateToProps ,mapDispatchToProps )(Counter);
 
 component
 
-Counter
+將 container 傳的 function
+在這邊進行包裝
+將從 action 裡面回傳的 promise 寫入 resolve 
 
-    class Counter extends React.Component
+    import React from 'react';
+
+    export default class Counter extends React.Component
     {
       constructor(props) {
         super(props);
       }
       asyncIncrement()
       {
-        this.props.onAsyncIncrement().then(function(type){
-          if(type=="add"){
-            this.props.onIncrement();
-          }
+        this.props.onAsyncIncrement().then(function(num){
+            this.props.setNum(num);
+
         }.bind(this))
       }
       asyncDecrement()
       {
-          this.props.onAsyncDecrement().then(function(type){
-          if(type=="minus"){
-            this.props.onDecrement();
-          }
+          this.props.onAsyncDecrement().then(function(num){
+            this.props.setNum(num);
+
         }.bind(this))
       }
       render() {
@@ -118,12 +136,6 @@ Counter
         return(
                 <p>
                     Clicked: {this.props.value.value} times
-                    <button onClick={this.props.onIncrement}>
-                        +
-                    </button>
-                    <button onClick={this.props.onDecrement}>
-                        -
-                    </button>
                     <button onClick={this.asyncIncrement.bind(this)}>
                         async +
                     </button>
