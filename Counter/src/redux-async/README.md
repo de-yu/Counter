@@ -146,3 +146,34 @@ component
                 );
       }
     }
+
+最後 整合
+
+babel-polyfill 在出現 regeneratorRuntime is not defined  需引入
+
+在 createStore 的地方
+
+需使用 applyMiddleware 來使非同步動作產生效果
+
+反則不會正常動作
+
+    import "babel-polyfill";  //regeneratorRuntime is not defined
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import {createStore , applyMiddleware} from 'redux';
+    import {Provider} from 'react-redux';
+    import Counter from './container/container'
+    import reducer from './reducer/index'
+    import thunk from 'redux-thunk';
+
+    const store = createStore(
+      reducer,
+      applyMiddleware(thunk)
+    );
+
+    ReactDOM.render(
+       <Provider store={store}>
+                <Counter />
+      </Provider>,
+      document.getElementById('app')
+    );
